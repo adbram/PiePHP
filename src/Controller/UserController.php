@@ -1,11 +1,12 @@
 <?php
 namespace Controller ;
 
-class UserController
+class UserController extends \Core\Controller
 {
 
-    public function run()
+    public function runAction()
     {
+        parent::run();
         echo __CLASS__ . " [ OK ]" . PHP_EOL ;
     }
 
