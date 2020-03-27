@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /PiePHP
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_URI} !^/PiePHP/(webroot/.+|index.php|robots.txt)$
+RewriteRule ^([a-zA-Z0-9]+)/([a-zA-Z0-9]+)$ index.php?c=$1&a=$2
+RewriteRule ^([a-zA-Z0-9]+)$ index.php?cORa=$1
+RewriteRule ^ index.php [QSA,L]
