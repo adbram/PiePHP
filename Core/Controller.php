@@ -3,18 +3,22 @@ namespace Core ;
 
 class Controller
 {
-    public function run()
-    {
-        echo __CLASS__ . " [ OK ]" . PHP_EOL ;
+    private static $_render;
+
+    protected function render($requiredView, $scope = []) {
+        extract($scope, EXTR_PREFIX_ALL, 'scopeElement_');
+        $template = implode(DIRECTORY_SEPARATOR, [dirname( __DIR__ ), 'src', 'View', str_replace('Controller', '', basename(get_class($this))), $requiredView]) . '.php';
+        if(file_exists($template)) {
+            ob_start();
+            include($template);
+            $view = ob_get_clean();
+            ob_start();
+            include(implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'src', 'View', 'index']) . '.php');
+            self::$_render = ob_get_clean();
+        }
     }
 
-    public function addAction()
-    {
-        echo 'addAction [ OK ]' . PHP_EOL ;
-    }
-
-    public function indexAction()
-    {
-        echo 'indexAction [ OK ]' . PHP_EOL ;
+    public function __destruct() {
+        echo self::$_render;
     }
 }

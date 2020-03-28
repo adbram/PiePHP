@@ -36,7 +36,6 @@ class Core
         }
 
         if(class_exists($class)){
-            echo $class . ' [ OK ]<br>';
             $obj = new $class();
             if(method_exists($obj, $method)){
                 $obj->$method();
