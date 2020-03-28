@@ -3,7 +3,13 @@ namespace Core ;
 
 class Controller
 {
+    protected $_userModelObj;
     private static $_render;
+
+    public function __construct()
+    {
+        $this->_userModelObj = new \Model\UserModel($_POST);
+    }
 
     protected function render($requiredView, $scope = []) {
         extract($scope, EXTR_PREFIX_ALL, 'scopeElement_');
