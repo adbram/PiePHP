@@ -35,6 +35,7 @@ class Core
             }
         }
 
+        echo $class . ' ' . $method . '<br>';
         if(class_exists($class)){
             $obj = new $class();
             if(method_exists($obj, $method)){

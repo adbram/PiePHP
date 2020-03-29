@@ -104,6 +104,7 @@ class UserModel
     {
         $req = self::$_db->prepare('DELETE FROM users WHERE id = :id ;');
         $req->execute(['id' => $id]);
+        return $req->rowCount();
     }
 
     public function readAll()

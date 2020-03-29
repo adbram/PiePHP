@@ -3,12 +3,15 @@ namespace Core ;
 
 class Controller
 {
+    protected $_requestObj;
     protected $_userModelObj;
     private static $_render;
 
     public function __construct()
     {
-        $this->_userModelObj = new \Model\UserModel($_POST);
+
+        $this->_requestObj = new \Core\Request($_POST, $_GET);
+        $this->_userModelObj = new \Model\UserModel($this->_requestObj->getPostData());
     }
 
     protected function render($requiredView, $scope = []) {
