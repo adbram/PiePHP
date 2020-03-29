@@ -3,46 +3,27 @@ namespace Core;
 
 class Request
 {
-    private $_postData;
-    private $_getData;
+    private $_queryParams;
 
     public function __construct(array $postData, array $getData)
     {
-        $this->sanitizePost($postData);
-        $this->sanitizeGet($getData);
+        $this->sanitizeQueryParams(array_merge($postData, $getData));
     }
 
-    public function sanitizePost(array $postData)
+    public function sanitizeQueryParams(array $queryParams)
     {
-        if(!empty($this->_postData)) {
-            foreach($this->_postData as $key => $value) {
+        if(!empty($queryParams)) {
+            foreach($queryParams as $key => $value) {
                 if($key != 'password') {
-                    $this->_postData[$key] = trim(filter_var(htmlspecialchars(stripslashes($value)), FILTER_SANITIZE_STRING));
+                    $queryParams[$key] = trim(filter_var(htmlspecialchars(stripslashes($value)), FILTER_SANITIZE_STRING));
                 }
             }
         }
-        $this->_postData = $postData;
+        $this->_queryParams = $queryParams;
     }
 
-    public function sanitizeGet(array $getData)
+    public function getQueryParams()
     {
-        if(!empty($this->_getData)) {
-            foreach($this->_getData as $key => $value) {
-                if($key != 'password') {
-                    $this->_getData[$key] = trim(filter_var(htmlspecialchars(stripslashes($value)), FILTER_SANITIZE_STRING));
-                }
-            }
-        }
-        $this->_getData = $getData;
-    }
-
-    public function getPostData()
-    {
-        return $this->_postData;
-    }
-
-    public function getGetData()
-    {
-        return $this->_getData;
+        return $this->_queryParams;
     }
 }

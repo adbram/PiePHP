@@ -10,7 +10,13 @@ class UserController extends \Core\Controller
 
     public function registerAction()
     {
-        $this->_userModelObj->save();
+        $params = $this->_requestObj->getQueryParams();
+        // $params = ['id' => 1, 'email' => 'aqqqqdnane.berramou@epitech.eu', 'password' => 'asdASD123'];
+        $user = new \Model\UserModel($params);
+        if(!$user->id) {
+            $user->save();
+            self::$_render = "Votre compte a ete cree.<br>";
+        }
     }
 
     public function viewLoginAction()

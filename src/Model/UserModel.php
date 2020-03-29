@@ -2,7 +2,7 @@
 namespace Model ;
 use \PDO;
 
-class UserModel
+class UserModel extends \Core\Entity
 {
     private $_email;
     private $_password;
@@ -10,6 +10,7 @@ class UserModel
 
     public function __construct($data = [])
     {
+        parent::__construct($data);
         self::$_db = new  PDO('mysql:host=127.0.0.1;dbname=piephp;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $this->hydrate($data);
     }

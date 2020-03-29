@@ -11,7 +11,7 @@ class ORM
         self::$_db = new  PDO('mysql:host=127.0.0.1;dbname=piephp;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }
 
-    public function create($table, $fields = []) // sans verifications d'email pour l'instant psk je sais pas comment le projet va evoluer
+    public function create($table, $fields = [])
     {
         $toFill = array_keys($fields);
         $values = array_values($fields);
@@ -48,9 +48,6 @@ class ORM
 
     public function update($table, $id, $fields)
     {
-        // $req = self::$_db->prepare('UPDATE users SET email = :email, password = :password;');
-        // $req->execute(['email' => $this->getEmail(), 'password' => $this->getPassword()]);
-
         $toFill = array_keys($fields);
         $values = array_values($fields);
         $availablesFields = [];
