@@ -12,7 +12,7 @@ class UsersController extends \Core\Controller
     {
         // $params = $this->_requestObj->getQueryParams();
         $params = ['email' => 'salutatous', 'password' => 'salutsalut'];
-        $user = new \Model\UsersModel($params);
+        $user = new \Model\UsersModel($params, ['has many' => 'comment']);
         if(!isset($user->id)) {
             $user->save();
             self::$_render = "Votre compte a ete cree.<br>";

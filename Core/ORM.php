@@ -28,14 +28,39 @@ class ORM
         }
     }
 
-    public static function read($table, $id)
+    public static function read($table, $id, $relations)
     {
         $req = Database::getDbConnection()->prepare('SELECT * FROM '.$table.' WHERE id = :id ;');
         if($req->execute(['id' => $id]) == true) {
-            return $req->fetch(\PDO::FETCH_ASSOC);
+            $toReturn = $req->fetch(\PDO::FETCH_ASSOC);
+
+            # relations part
+
+            foreach($relations as $type => $tableJoin) {
+                if ($type == 'has many') {
+                    $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$toReturn['id'].';');
+                    if($st->execute() == true) {
+                        $joinRelations = [];
+                        while($data = $st->fetch(\PDO::FETCH_ASSOC)) {
+                            $joinRelations[$tableJoin.'-'.$data['id']] = $data;
+                        }
+                        $toReturn[$tableJoin] = $joinRelations;
+                    }
+                } elseif ($type == 'has one') {
+                    $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$toReturn['id'].';');
+                    if($st->execute() == true) {
+                        $data = $st->fetch(\PDO::FETCH_ASSOC);
+                        $toReturn[$tableJoin.'-'.$data['id']] = $data;
+                    }
+                }
+            }
+
+            # end relations part
+            return $toReturn;
         } else {
             return false;
         }
+
     }
 
     public static function update($table, $id, $fields)
@@ -69,7 +94,7 @@ class ORM
         }
     }
 
-    public static function find($table, $params = [])
+    public static function find($table, $params = [], $relations)
     {
         $toReturn = [];
         $req = Database::getDbConnection()->prepare('SELECT * FROM ' . $table . ' ' . implode(' ', $this->readyToUse($params, 2)) .' ;');
