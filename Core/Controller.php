@@ -4,7 +4,7 @@ namespace Core ;
 class Controller
 {
     protected $_requestObj;
-    private static $_render;
+    protected static $_render;
 
     public function __construct()
     {

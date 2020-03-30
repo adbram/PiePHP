@@ -1,7 +1,7 @@
 <?php
 namespace Controller ;
 
-class UserController extends \Core\Controller
+class UsersController extends \Core\Controller
 {
     public function viewRegisterAction()
     {
@@ -10,10 +10,10 @@ class UserController extends \Core\Controller
 
     public function registerAction()
     {
-        $params = $this->_requestObj->getQueryParams();
-        // $params = ['id' => 1, 'email' => 'aqqqqdnane.berramou@epitech.eu', 'password' => 'asdASD123'];
-        $user = new \Model\UserModel($params);
-        if(!$user->id) {
+        // $params = $this->_requestObj->getQueryParams();
+        $params = ['email' => 'salutatous', 'password' => 'salutsalut'];
+        $user = new \Model\UsersModel($params);
+        if(!isset($user->id)) {
             $user->save();
             self::$_render = "Votre compte a ete cree.<br>";
         }

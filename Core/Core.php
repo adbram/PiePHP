@@ -6,6 +6,7 @@ class Core
     public function __construct()
     {
         require_once(implode(DIRECTORY_SEPARATOR,  ['src', 'routes.php']));
+        require_once(implode(DIRECTORY_SEPARATOR,  ['src', 'dbconnection.php']));
     }
 
     public function run($url)
