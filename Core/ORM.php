@@ -79,7 +79,7 @@ class ORM
             }
         }
         $interrogationPoints = array_fill(0, count($values), '?');
-        $req = Database::getDbConnection()->prepare('UPDATE '.$table.' SET '.implode(', ', $this->readyToUse($toFill)).' WHERE id = '.$id.';');
+        $req = Database::getDbConnection()->prepare('UPDATE '.$table.' SET '.implode(', ', self::readyToUse($toFill)).' WHERE id = '.$id.';');
         return $req->execute($values);
     }
 
@@ -97,10 +97,33 @@ class ORM
     public static function find($table, $params = [], $relations)
     {
         $toReturn = [];
-        $req = Database::getDbConnection()->prepare('SELECT * FROM ' . $table . ' ' . implode(' ', $this->readyToUse($params, 2)) .' ;');
+        $req = Database::getDbConnection()->prepare('SELECT * FROM ' . $table . ' ' . implode(' ', self::readyToUse($params, 2)) .' ;');
         if($req->execute([]) == true){
             while($data = $req->fetch(\PDO::FETCH_ASSOC)) {
                 $toReturn['id-'.$data['id']] = $data;
+
+                # relations part
+
+                foreach($relations as $type => $tableJoin) {
+                    if ($type == 'has many') {
+                        $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$toReturn['id-'.$data['id']]['id'].';');
+                        if($st->execute() == true) {
+                            $joinRelations = [];
+                            while($dataII = $st->fetch(\PDO::FETCH_ASSOC)) {
+                                $joinRelations[$tableJoin.'-'.$dataII['id']] = $dataII;
+                            }
+                            $toReturn['id-'.$data['id']][$tableJoin] = $joinRelations;
+                        }
+                    } elseif ($type == 'has one') {
+                        $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$toReturn['id-'.$data['id']]['id'].';');
+                        if($st->execute() == true) {
+                            $dataII = $st->fetch(\PDO::FETCH_ASSOC);
+                            $toReturn['id-'.$data['id']][$tableJoin] = $dataII;
+                        }
+                    }
+                }
+
+                # end relations part
             }
             return $toReturn;
         } else {
@@ -108,7 +131,7 @@ class ORM
         }
     }
 
-    private function readyToUse($arr, $type = 1)
+    private static function readyToUse($arr, $type = 1)
     {
         if($type == 1) {
             foreach($arr as $key => $value) {

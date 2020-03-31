@@ -14,7 +14,7 @@ class UsersController extends \Core\Controller
         $params = ['email' => 'salutatous', 'password' => 'salutsalut'];
         $user = new \Model\UsersModel($params, ['has many' => 'comment']);
         if(!isset($user->id)) {
-            $user->save();
+            // $user->save();
             self::$_render = "Votre compte a ete cree.<br>";
         }
     }
@@ -32,5 +32,11 @@ class UsersController extends \Core\Controller
     public function logoutAction()
     {
         $this->_userModelObj->logout();
+    }
+
+    public function showAction($id)
+    {
+        self::render('show');
+        echo " ID de l' utilisateur a afficher : $id<br>" ;
     }
 }
