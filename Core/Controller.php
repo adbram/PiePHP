@@ -12,7 +12,7 @@ class Controller
     }
 
     protected function render($requiredView, $scope = []) {
-        extract($scope, EXTR_PREFIX_ALL, 'scopeElement_');
+        extract($scope);
         $template = implode(DIRECTORY_SEPARATOR, [dirname( __DIR__ ), 'src', 'View', str_replace('Controller', '', basename(get_class($this))), $requiredView]) . '.php';
         if(file_exists($template)) {
             $originalContent = file_get_contents($template);

@@ -5,7 +5,7 @@ class UsersModel extends \Core\Entity
 {
     public function save()
     {
-        return \Core\ORM::create($this->_table, $this->_allValues);
+        \Core\ORM::create($this->_table, $this->_allValues);
     }
 }
 

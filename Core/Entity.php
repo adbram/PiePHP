@@ -1,7 +1,7 @@
 <?php
 namespace Core;
 
-abstract class Entity
+class Entity
 {
     protected $_table;
     protected $_allValues;
@@ -18,6 +18,7 @@ abstract class Entity
         $this->_allValues = get_object_vars($this);
         unset($this->_allValues['_table']);
         unset($this->_allValues['_allValues']);
+        unset($this->_allValues['_relations']);
         $this->_relations = $relations;
     }
 

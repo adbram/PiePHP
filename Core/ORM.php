@@ -33,16 +33,15 @@ class ORM
         $req = Database::getDbConnection()->prepare('SELECT * FROM '.$table.' WHERE id = :id ;');
         if($req->execute(['id' => $id]) == true) {
             $toReturn = $req->fetch(\PDO::FETCH_ASSOC);
-
             # relations part
-
             foreach($relations as $type => $tableJoin) {
                 if ($type == 'has many') {
                     $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$toReturn['id'].';');
                     if($st->execute() == true) {
                         $joinRelations = [];
                         while($data = $st->fetch(\PDO::FETCH_ASSOC)) {
-                            $joinRelations[$tableJoin.'-'.$data['id']] = $data;
+                            $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                            $joinRelations[$tableJoin.'-'.$data['id']] = new $class($data);
                         }
                         $toReturn[$tableJoin] = $joinRelations;
                     }
@@ -50,11 +49,11 @@ class ORM
                     $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$toReturn['id'].';');
                     if($st->execute() == true) {
                         $data = $st->fetch(\PDO::FETCH_ASSOC);
-                        $toReturn[$tableJoin.'-'.$data['id']] = $data;
+                        $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                        $toReturn[$tableJoin.'-'.$data['id']] = new $class($data);
                     }
                 }
             }
-
             # end relations part
             return $toReturn;
         } else {
@@ -101,16 +100,15 @@ class ORM
         if($req->execute([]) == true){
             while($data = $req->fetch(\PDO::FETCH_ASSOC)) {
                 $toReturn['id-'.$data['id']] = $data;
-
                 # relations part
-
                 foreach($relations as $type => $tableJoin) {
                     if ($type == 'has many') {
                         $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$toReturn['id-'.$data['id']]['id'].';');
                         if($st->execute() == true) {
                             $joinRelations = [];
                             while($dataII = $st->fetch(\PDO::FETCH_ASSOC)) {
-                                $joinRelations[$tableJoin.'-'.$dataII['id']] = $dataII;
+                                $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                                $joinRelations[$tableJoin.'-'.$dataII['id']] = new $class($dataII);
                             }
                             $toReturn['id-'.$data['id']][$tableJoin] = $joinRelations;
                         }
@@ -118,11 +116,11 @@ class ORM
                         $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$toReturn['id-'.$data['id']]['id'].';');
                         if($st->execute() == true) {
                             $dataII = $st->fetch(\PDO::FETCH_ASSOC);
-                            $toReturn['id-'.$data['id']][$tableJoin] = $dataII;
+                            $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                            $toReturn['id-'.$data['id']][$tableJoin] = new $class($dataII);
                         }
                     }
                 }
-
                 # end relations part
             }
             return $toReturn;

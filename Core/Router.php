@@ -16,7 +16,7 @@ class Router
                 $explodedStaticUrl[$key] = '([^\/]+)';
             }
         }
-        $finalStaticUrl = '/'.implode('\/', $explodedStaticUrl).'/';
+        $finalStaticUrl = '/'.implode('\/', $explodedStaticUrl).'\/?$/';
 
         if(!isset(self::$_routes[$finalStaticUrl])) {
             self::$_routes[$finalStaticUrl] = $route;
@@ -61,7 +61,6 @@ class Router
             $class = 'Controller\AppController';
             $method = 'indexAction';
         }
-        $parameters = $explodedUrl[array_key_last($explodedUrl)];
         return [$class, $method];
     }
 }

@@ -25,8 +25,6 @@ class TemplateEngine
             $content = file_get_contents($file);
             $newcontent = preg_replace(array_keys(self::$_rules), self::$_rules, $content);
             file_put_contents($file, $newcontent);
-        } else {
-            echo 'file does\'nt exists<br>';
         }
     }
 }
