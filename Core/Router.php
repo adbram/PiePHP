@@ -31,12 +31,10 @@ class Router
         if($explodedUrl[array_key_last($explodedUrl)] == '') {
             $useLessPart2 = array_pop($explodedUrl);
         }
-        echo '<pre>', var_dump($explodedUrl), '</pre>';
 
         if(!empty(self::$_routes)) {
             foreach(self::$_routes as $urlII => $controllerAndAction) {
                 if(preg_match($urlII, $slicedUrl, $matches)) {
-                    echo '<pre>', var_dump($matches), '</pre>';
                     $class = 'Controller\\' . ucfirst($controllerAndAction['controller']) . 'Controller';
                     $method = $controllerAndAction['action'] . 'Action';
                     if(isset($matches[1])) {
@@ -67,8 +65,3 @@ class Router
         return [$class, $method];
     }
 }
-
-
-
-
-// echo '<pre>', var_dump($explodedUrl), '</pre>';

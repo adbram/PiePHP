@@ -34,9 +34,8 @@ class UsersController extends \Core\Controller
         $this->_userModelObj->logout();
     }
 
-    public function showAction($id)
+    public function showAction()
     {
         self::render('show');
-        echo " ID de l' utilisateur a afficher : $id<br>" ;
     }
 }
