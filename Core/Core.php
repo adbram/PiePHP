@@ -16,6 +16,7 @@ class Core
         $class = $response[0];
         $method = $response[1];
 
+        echo $class . ' ' . $method . '<br>';
         if(class_exists($class)){
             $obj = new $class();
             if(method_exists($obj, $method)){

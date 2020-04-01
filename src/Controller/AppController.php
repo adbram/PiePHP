@@ -1,5 +1,5 @@
 <?php
-namespace Controller ;
+namespace Controller;
 
 class AppController extends \Core\Controller
 {
