@@ -15,6 +15,8 @@
         <option value="H">Homme</option>
         <option value="F">Femme</option>
         <option value="A">Autre</option>
-    </select>
+    </select><br/>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password"><br/>
     <input type="submit" value="Entrer">
 </form>

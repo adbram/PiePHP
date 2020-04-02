@@ -28,4 +28,29 @@ class Entity
             $this->$key = $value;
         }
     }
+
+    public function create()
+    {
+        return ORM::create($this->_table, $this->_allValues);
+    }
+
+    public function read($id)
+    {
+        return ORM::read($this->_table, $id, $this->_relations);
+    }
+
+    public function update($id)
+    {
+        return ORM::update($this->_table, $id, $this->_allValues);
+    }
+
+    public function delete($id)
+    {
+        return ORM::delete($this->_table, $id);
+    }
+
+    public function find($params)
+    {
+        return ORM::find($this->_table, $params, $this->_relations);
+    }
 }

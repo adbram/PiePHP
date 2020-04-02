@@ -15,7 +15,7 @@ class ORM
         }
         foreach($toFill as $field){
             if(!in_array($field, $availablesFields)) {
-                return false;
+                return $field;
             }
         }
         $interrogationPoints = array_fill(0, count($values), '?');
@@ -55,7 +55,11 @@ class ORM
                 }
             }
             # end relations part
-            return $toReturn;
+            if(!empty($toReturn)) {
+                return $toReturn;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -123,7 +127,11 @@ class ORM
                 }
                 # end relations part
             }
-            return $toReturn;
+            if(!empty($toReturn)) {
+                return $toReturn;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
