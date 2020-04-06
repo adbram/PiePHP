@@ -1,0 +1,59 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+}
+
+body {
+  background: url("../assets/posters.jpg") 0 0 repeat;
+}
+
+a {
+  color: black !important;
+  text-decoration: none;
+}
+
+a:hover {
+  -webkit-transition: ease-in-out .15s;
+  transition: ease-in-out .15s;
+  color: white;
+}
+
+a:active {
+  -webkit-transition: ease-in-out .1s;
+  transition: ease-in-out .1s;
+  color: grey;
+}
+
+header {
+  background-color: #FECC00;
+}
+
+header h1 {
+  font-weight: 600;
+}
+
+header nav ul li {
+  font-weight: 600;
+  list-style: none;
+}
+
+section {
+  padding-top: 170px;
+  background-color: white;
+  height: 400px;
+}
+
+section div {
+  text-align: center;
+}
+
+section div h2 {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+section div p {
+  font-size: 20px;
+  font-weight: 700;
+}
+/*# sourceMappingURL=style.css.map */

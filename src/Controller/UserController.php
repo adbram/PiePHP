@@ -14,6 +14,7 @@ class UserController extends \Core\Controller
             $check = $user->connect();
             if($check != false){
                 $_SESSION['id'] = $check[array_key_first($check)]['id'];
+                $_SESSION['pseudo'] = $check[array_key_first($check)]['pseudo'];
             } else {
                 self::render('login', ['error' => 'Email ou mot de passe incorrecte.']);
             }

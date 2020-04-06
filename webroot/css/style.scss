@@ -1,0 +1,50 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+body{
+    background: url('../assets/posters.jpg') 0 0 repeat;
+}
+a{
+    color: black !important;
+    text-decoration: none;
+    &:hover{
+        transition: ease-in-out .15s;
+        color: white;
+    }
+    &:active{
+        transition: ease-in-out .1s;
+        color: grey;
+    }
+}
+header{
+    background-color: #FECC00;
+    h1{
+        font-weight: 600;
+    }
+    nav{
+        ul{
+            li{
+                font-weight: 600;
+                list-style: none;
+            }
+        }
+    }
+}
+
+section{
+    padding-top: 170px;
+    background-color: white;
+    height: 400px;
+    div{
+        text-align: center;
+        h2{
+            font-weight: 700;
+            font-size: 28px;
+        }
+        p{
+            font-size: 20px;
+            font-weight: 700;
+        }
+    }
+}
