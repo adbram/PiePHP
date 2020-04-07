@@ -3,6 +3,9 @@ namespace Model;
 
 class UserModel extends \Core\Entity
 {
+    protected $_str = 'salut';
+    protected $_relations = ['has many' => 'historique'];
+
     public function save()
     {
         if($this->find(['WHERE' => 'email = "'. $this->email.'";']) == false){

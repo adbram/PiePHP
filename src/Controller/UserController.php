@@ -44,6 +44,12 @@ class UserController extends \Core\Controller
         }
     }
 
+    public function indexAction()
+    {
+        echo 'indexAction [ OK ]<br>';
+        $user = new \Model\UserModel(['id' => 1]);
+    }
+
     public function checkData($data)
     {
         foreach($data as $key => $value) {

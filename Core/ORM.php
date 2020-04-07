@@ -28,7 +28,7 @@ class ORM
         }
     }
 
-    public static function read($table, $id, $relations)
+    public static function read($table, $id, $relations = [])
     {
         $req = Database::getDbConnection()->prepare('SELECT * FROM '.$table.' WHERE id = :id ;');
         if($req->execute(['id' => $id]) == true) {
@@ -97,7 +97,7 @@ class ORM
         }
     }
 
-    public static function find($table, $params = [], $relations)
+    public static function find($table, $params = [], $relations = [])
     {
         $toReturn = [];
         $req = Database::getDbConnection()->prepare('SELECT * FROM ' . $table . ' ' . implode(' ', self::readyToUse($params, 2)) .' ;');
@@ -135,6 +135,33 @@ class ORM
         } else {
             return false;
         }
+    }
+
+    public static function relations($table, $relations, $id)
+    {
+        $toReturn = [];
+        foreach($relations as $type => $tableJoin) {
+            if ($type == 'has many') {
+                $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$id.';');
+                if($st->execute() == true) {
+                    $joinRelations = [];
+                    while($data = $st->fetch(\PDO::FETCH_ASSOC)) {
+                        $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                        $joinRelations[] = new $class($data);
+                    }
+                    $toReturn[$tableJoin] = $joinRelations;
+                }
+            } elseif ($type == 'has one') {
+                $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$id.';');
+                if($st->execute() == true) {
+                    $data = $st->fetch(\PDO::FETCH_ASSOC);
+                    $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                    $toReturn[$tableJoin] = new $class($data);
+                }
+            }
+        }
+        // echo '<pre>', var_dump($toReturn), '</pre>';
+        return $toReturn;
     }
 
     private static function readyToUse($arr, $type = 1)
