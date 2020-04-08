@@ -40,20 +40,24 @@ header nav ul li {
 section {
   padding-top: 170px;
   background-color: white;
-  height: 400px;
 }
 
-section div {
+section .welcomeDiv {
   text-align: center;
 }
 
-section div h2 {
+section .welcomeDiv h2 {
   font-weight: 700;
   font-size: 28px;
 }
 
-section div p {
+section .welcomeDiv p {
   font-size: 20px;
   font-weight: 700;
+}
+
+section .movieCard {
+  text-align: center;
+  padding: 10px;
 }
 /*# sourceMappingURL=style.css.map */

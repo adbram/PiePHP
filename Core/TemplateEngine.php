@@ -4,19 +4,19 @@ namespace Core;
 class TemplateEngine
 {
     private static $_rules = [
-        '/\{\{(.*)\}\}/' => '<?= htmlentities(($1)) ?>',
-        '/\s*\@if\s*\((.*)\)\s*/' => '<?php if (($1)): ?>',
-        '/\s*\@else\s*if\s*\((.*)\)\s*/' => '<?php elseif (($1)): ?>',
-        '/\s*\@else\s*/' => '<?php else: ?>',
-        '/\s*\@endif\s*/' => '<?php endif; ?>',
-        '/\s*\@foreach\s*\((.*)\)\s*/' => '<?php foreach (($1)): ?>',
-        '/\s*\@endforeach\s*/' => '<?php endforeach; ?>',
-        '/\s*\@isset\s*\((.*)\)\s*/' => '<?php if (isset(($1))): ?>',
-        '/\s*\@endisset\s*/' => '<?php endif; ?>',
-        '/\s*\@empty\s*\((.*)\)\s*/' => '<?php if (empty(($1))): ?>',
-        '/\s*\@endempty\s*/' => '<?php endif; ?>',
-        '/\s*\@while\s*\((.*)\)\s*/' => '<?php while (($1)): ?>',
-        '/\s*\@endwhile\s*/' => '<?php endwhile; ?>'
+        '/\{\{(.*)\}\}/' => '<?= htmlentities($1) ?>',
+        '/\@if\s*\((.*)\)/' => '<?php if ($1): ?>',
+        '/\@else\s*if\s*\((.*)\)/' => '<?php elseif ($1): ?>',
+        '/\@else/' => '<?php else: ?>',
+        '/\@endif/' => '<?php endif; ?>',
+        '/\@foreach\s*\((.*)\)/' => '<?php foreach ($1): ?>',
+        '/\@endforeach/' => '<?php endforeach; ?>',
+        '/\@isset\s*\((.*)\)/' => '<?php if (isset($1)): ?>',
+        '/\@endisset/' => '<?php endif; ?>',
+        '/\@empty\s*\((.*)\)/' => '<?php if (empty($1)): ?>',
+        '/\@endempty/' => '<?php endif; ?>',
+        '/\@while\s*\((.*)\)/' => '<?php while ($1): ?>',
+        '/\@endwhile/' => '<?php endwhile; ?>'
     ];
 
     public static function parsePHP($file)

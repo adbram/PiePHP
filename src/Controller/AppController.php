@@ -8,7 +8,8 @@ class AppController extends \Core\Controller
         if(isset($_SESSION['id'])){
             header('Location: '.BASE_URI.'/login');
         } else {
-            self::render('index');
+            $films = \Core\ORM::find('film');
+            self::render('index', ['films' => $films]);
         }
     }
 }
