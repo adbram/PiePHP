@@ -28,33 +28,12 @@ class ORM
         }
     }
 
-    public static function read($table, $id, $relations = [])
+    public static function read($table, $id)
     {
         $req = Database::getDbConnection()->prepare('SELECT * FROM '.$table.' WHERE id = :id ;');
         if($req->execute(['id' => $id]) == true) {
-            $toReturn = $req->fetch(\PDO::FETCH_ASSOC);
-            # relations part
-            foreach($relations as $type => $tableJoin) {
-                if ($type == 'has many') {
-                    $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$toReturn['id'].';');
-                    if($st->execute() == true) {
-                        $joinRelations = [];
-                        while($data = $st->fetch(\PDO::FETCH_ASSOC)) {
-                            $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
-                            $joinRelations[$tableJoin.'-'.$data['id']] = new $class($data);
-                        }
-                        $toReturn[$tableJoin] = $joinRelations;
-                    }
-                } elseif ($type == 'has one') {
-                    $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$toReturn['id'].';');
-                    if($st->execute() == true) {
-                        $data = $st->fetch(\PDO::FETCH_ASSOC);
-                        $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
-                        $toReturn[$tableJoin.'-'.$data['id']] = new $class($data);
-                    }
-                }
-            }
-            # end relations part
+            $class = '\Model\\' . ucfirst($table) . 'Model';
+            $toReturn =  new $class($req->fetch(\PDO::FETCH_ASSOC));
             if(!empty($toReturn)) {
                 return $toReturn;
             } else {
@@ -63,7 +42,6 @@ class ORM
         } else {
             return false;
         }
-
     }
 
     public static function update($table, $id, $fields)
@@ -97,35 +75,14 @@ class ORM
         }
     }
 
-    public static function find($table, $params = [], $relations = [])
+    public static function find($table, $params = [])
     {
         $toReturn = [];
         $req = Database::getDbConnection()->prepare('SELECT * FROM ' . $table . ' ' . implode(' ', self::readyToUse($params, 2)) .' ;');
         if($req->execute([]) == true){
             while($data = $req->fetch(\PDO::FETCH_ASSOC)) {
-                $toReturn['id-'.$data['id']] = $data;
-                # relations part
-                foreach($relations as $type => $tableJoin) {
-                    if ($type == 'has many') {
-                        $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$toReturn['id-'.$data['id']]['id'].';');
-                        if($st->execute() == true) {
-                            $joinRelations = [];
-                            while($dataII = $st->fetch(\PDO::FETCH_ASSOC)) {
-                                $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
-                                $joinRelations[$tableJoin.'-'.$dataII['id']] = new $class($dataII);
-                            }
-                            $toReturn['id-'.$data['id']][$tableJoin] = $joinRelations;
-                        }
-                    } elseif ($type == 'has one') {
-                        $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$toReturn['id-'.$data['id']]['id'].';');
-                        if($st->execute() == true) {
-                            $dataII = $st->fetch(\PDO::FETCH_ASSOC);
-                            $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
-                            $toReturn['id-'.$data['id']][$tableJoin] = new $class($dataII);
-                        }
-                    }
-                }
-                # end relations part
+                $class = '\Model\\' . ucfirst($table) . 'Model';
+                $toReturn[] =  new $class($data);
             }
             if(!empty($toReturn)) {
                 return $toReturn;
@@ -160,7 +117,6 @@ class ORM
                 }
             }
         }
-        // echo '<pre>', var_dump($toReturn), '</pre>';
         return $toReturn;
     }
 

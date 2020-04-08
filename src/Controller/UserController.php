@@ -48,6 +48,9 @@ class UserController extends \Core\Controller
     {
         echo 'indexAction [ OK ]<br>';
         $user = new \Model\UserModel(['id' => 1]);
+        // echo '<pre>', var_dump($user->historique), '</pre>';
+        // echo '<pre>', var_dump($user->read(1)), '</pre>';
+        echo '<pre>', var_dump($user->find()), '</pre>';
     }
 
     public function checkData($data)

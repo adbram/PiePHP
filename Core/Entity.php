@@ -39,7 +39,7 @@ class Entity
 
     public function read($id)
     {
-        return ORM::read($this->_table, $id, $this->_relations);
+        return ORM::read($this->_table, $id);
     }
 
     public function update($id)
@@ -52,8 +52,8 @@ class Entity
         return ORM::delete($this->_table, $id);
     }
 
-    public function find($params)
+    public function find($params = [])
     {
-        return ORM::find($this->_table, $params, $this->_relations);
+        return ORM::find($this->_table, $params);
     }
 }
