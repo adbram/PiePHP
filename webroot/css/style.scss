@@ -33,21 +33,48 @@ header{
 }
 
 section{
-    padding-top: 170px;
+    padding: 50px;
     background-color: white;
-    .welcomeDiv{
-        text-align: center;
-        h2{
-            font-weight: 700;
-            font-size: 28px;
-        }
-        p{
-            font-size: 20px;
-            font-weight: 700;
+    #searchBar{
+        border: solid 1px transparent;
+        border-radius: 100px;
+        background: #E7EAED;
+    }
+    #search{
+        padding: 20px;
+        background: #E7EAED;
+        outline-style: none;
+        border: solid 1px transparent;
+        border-radius: 100px;
+    }
+    #submitSearch{
+        border-radius: 50%;
+        background: #E7EAED;
+        outline-style: none;
+        border: solid 1px transparent;
+        margin-left: -10px;
+        i{
+            padding: 10px;
+            &:hover{
+                transition: .1s ease-in-out;
+                color: white;
+            }
+            &:active{
+                color: grey;
+            }
         }
     }
     .movieCard{
         text-align: center;
         padding: 10px;
+    }
+    .pagesNav{
+        text-align: center;
+        .nbPage{
+            font-weight: 600;
+        }
+        .currentPage{
+            text-decoration: underline;
+        }
     }
 }

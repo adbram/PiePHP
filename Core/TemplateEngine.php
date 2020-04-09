@@ -4,13 +4,15 @@ namespace Core;
 class TemplateEngine
 {
     private static $_rules = [
-        '/\{\{(.*)\}\}/' => '<?= htmlentities($1) ?>',
+        '/\{\{([^{]*)\}\}/' => '<?= htmlentities($1) ?>',
         '/\@if\s*\((.*)\)/' => '<?php if ($1): ?>',
         '/\@else\s*if\s*\((.*)\)/' => '<?php elseif ($1): ?>',
         '/\@else/' => '<?php else: ?>',
         '/\@endif/' => '<?php endif; ?>',
         '/\@foreach\s*\((.*)\)/' => '<?php foreach ($1): ?>',
         '/\@endforeach/' => '<?php endforeach; ?>',
+        '/\@for\s*\((.*)\)/' => '<?php for ($1): ?>',
+        '/\@endfor/' => '<?php endfor; ?>',
         '/\@isset\s*\((.*)\)/' => '<?php if (isset($1)): ?>',
         '/\@endisset/' => '<?php endif; ?>',
         '/\@empty\s*\((.*)\)/' => '<?php if (empty($1)): ?>',

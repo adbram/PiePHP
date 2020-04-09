@@ -27,6 +27,18 @@ class Controller
         }
     }
 
+    public static function pagination($elements, $currentPage, $elementsByPage = 2)
+    {
+        $nbElements = count($elements);
+        $nbPages = ceil($nbElements / $elementsByPage);
+        if($currentPage == 0 || $currentPage > $nbPages){
+            $currentPage = 1;
+        }
+        $start = ($currentPage - 1) * $elementsByPage;
+        $elements = array_slice($elements, $start, $elementsByPage);
+        return ['elements' => $elements, 'nbPages' => $nbPages, 'currentPage' => $currentPage];
+    }
+
     public function __destruct() {
         echo self::$_render;
     }

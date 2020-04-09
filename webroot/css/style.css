@@ -38,26 +38,60 @@ header nav ul li {
 }
 
 section {
-  padding-top: 170px;
+  padding: 50px;
   background-color: white;
 }
 
-section .welcomeDiv {
-  text-align: center;
+section #searchBar {
+  border: solid 1px transparent;
+  border-radius: 100px;
+  background: #E7EAED;
 }
 
-section .welcomeDiv h2 {
-  font-weight: 700;
-  font-size: 28px;
+section #search {
+  padding: 20px;
+  background: #E7EAED;
+  outline-style: none;
+  border: solid 1px transparent;
+  border-radius: 100px;
 }
 
-section .welcomeDiv p {
-  font-size: 20px;
-  font-weight: 700;
+section #submitSearch {
+  border-radius: 50%;
+  background: #E7EAED;
+  outline-style: none;
+  border: solid 1px transparent;
+  margin-left: -10px;
+}
+
+section #submitSearch i {
+  padding: 10px;
+}
+
+section #submitSearch i:hover {
+  -webkit-transition: .1s ease-in-out;
+  transition: .1s ease-in-out;
+  color: white;
+}
+
+section #submitSearch i:active {
+  color: grey;
 }
 
 section .movieCard {
   text-align: center;
   padding: 10px;
+}
+
+section .pagesNav {
+  text-align: center;
+}
+
+section .pagesNav .nbPage {
+  font-weight: 600;
+}
+
+section .pagesNav .currentPage {
+  text-decoration: underline;
 }
 /*# sourceMappingURL=style.css.map */

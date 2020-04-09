@@ -21,7 +21,7 @@ class Core
             $obj = new $class();
             if(method_exists($obj, $method)){
                 if(isset($response[2])){
-                    $obj->$method(implode(', ', $response[2]));
+                    $obj->$method($response[2]);
                 } else {
                     $obj->$method();
                 }

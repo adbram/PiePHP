@@ -11,22 +11,29 @@
 </header>
 
 <section class="row">
-    <div class="welcomeDiv col-12">
-        <h2>Contribuez au développement de la plus grande banque de films open-source !</h2>
-        <p>Inscrivez-vous dès maintenant en cliquant <a href="signin">ici</a>.</p>
-    </div>
+    <form class="row col-12" action="search/page/1" method="get" id="searchBar">
+        <input type="text" name="s" id="search" class="col-11" maxlength="50"  placeholder="Rechercher...">
+        <button type="submit" form="searchBar" id="submitSearch" class="col-1"><i class="fas fa-search"></i></button>
+    </form>
     @foreach($films as $key => $film)
-        <!-- @dif($key < 4) -->
-            <div class="movieCard col-6 col-md-3" data-id="{{$film->id}}">
-                @if($film->poster == NULL)
-                    <img src="webroot/assets/noImage.png">
-                @else
-                <img src="data:image/png;base64, {{$film->poster}}" width=150>
-                @endif
-            <h3>{{$film->titre}}</h1>
-            </div>
-        <!-- @dendif -->
+        <div class="movieCard col-6 col-md-3" data-id="{{$film->id}}">
+            @if($film->poster == NULL)
+                <img src="webroot/assets/noImage.png">
+            @else
+            <img src="data:image/png;base64, {{$film->poster}}" width=150>
+            @endif
+        <h3>{{$film->titre}}</h1>
+        </div>
     @endforeach
+    <div class="col-12 pagesNav">
+        @for($i = 1 ; $i <= $nbPages ; $i++)
+            @if($currentPage != $i)
+                <a class="nbPage" href="{{preg_replace([BASE_URI.'\//', '/\/page\/(.*)/'], '', $_SERVER['REQUEST_URI']) . '/page/'.$i}}"> {{$i}} </a>
+            @else
+                <span class="currentPage nbPage">{{$i}}</span>
+            @endif
+        @endfor
+    </div>
 </section>
 
 <footer>

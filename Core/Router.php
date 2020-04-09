@@ -13,10 +13,10 @@ class Router
         foreach ($explodedStaticUrl as $key => $value) {
             if(substr($value, 0, 1) == '{' && substr($value, -1) == '}') {
                 $regex = true;
-                $explodedStaticUrl[$key] = '([^\/]+)';
+                $explodedStaticUrl[$key] = '([^\/]*)';
             }
         }
-        $finalStaticUrl = '/'.implode('\/', $explodedStaticUrl).'\/?$/';
+        $finalStaticUrl = '/^'.implode('\/', $explodedStaticUrl).'\/?$/';
 
         if(!isset(self::$_routes[$finalStaticUrl])) {
             self::$_routes[$finalStaticUrl] = $route;
