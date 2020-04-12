@@ -25,10 +25,10 @@ class Core
                     $obj->$method();
                 }
             } else {
-                echo '404<br>';
+                echo '<img id="quattre" src="webroot/assets/404.gif">';
             }
         } else {
-            echo '404<br>';
+            echo '<img id="quattre" src="webroot/assets/404.gif">';
         }
     }
 }
