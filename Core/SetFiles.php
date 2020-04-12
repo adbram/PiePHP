@@ -1,0 +1,28 @@
+<?php
+namespace Core;
+
+class SetFiles
+{
+    public function __construct($entities)
+    {
+        echo '<h1>WSH</h1>';
+        $dirs = ['src/Model', 'src/View', 'src/Controller'];
+        $files = [];
+
+        foreach ($entities as $key => $value) {
+            $files[] = ['src/Model/' . ucfirst($value) . 'Model.php', "<?php\nnamespace Model;\n\nclass ".ucfirst($value)."Model extends \Core\Entity\n{\n}"];
+            $dirs[] = 'src/View/' . ucfirst($value);
+            $files[] = ['src/Controller/' . ucfirst($value) . 'Controller.php', "<?php\nnamespace Controller;\n\nclass ".ucfirst($value)."Controller extends \Core\Controller\n{\n}"];
+        }
+        foreach ($dirs as $key => $value) {
+            if (!file_exists($value)) {
+                mkdir($value, 0777, true);
+            }
+        }
+        foreach ($files as $key => $value) {
+            if (!file_exists($value[0])) {
+                file_put_contents($value[0], $value[1]);
+            }
+        }
+    }
+}
