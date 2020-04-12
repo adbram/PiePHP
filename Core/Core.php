@@ -1,7 +1,9 @@
 <?php
 namespace Core ;
-//voir pour afficher la page 404 a la place
 
+/**
+ * Core lance votre application
+ */
 class Core
 {
     public function __construct()
@@ -10,6 +12,13 @@ class Core
         require_once(implode(DIRECTORY_SEPARATOR,  ['src', 'dbconnection.php']));
     }
 
+    /**
+     * run
+     *
+     * @param  mixed $url
+     * @return void
+     * Instance la classe, et appelle la methode retournees par la classe "Router"
+     */
     public function run($url)
     {
         $response = Router::get($url);

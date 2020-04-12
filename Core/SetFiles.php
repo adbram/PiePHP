@@ -1,8 +1,17 @@
 <?php
 namespace Core;
 
+/**
+ * SetFiles vous prepare votre environnement de travail
+ */
 class SetFiles
 {
+    /**
+     * __construct cette fonction magique (qui fait la difference hein faut le reconnaitre ;)), vous prepare un dossier "src/", qui contiendra tous les elements dont vous aurez besoin lors de l'utilisation du framework, donnez lui les tables que vous utiliserez et tous vos controlleurs, model, et vos dossiers view seront pret a l'emploi, avec des classes toute pretes
+     *
+     * @param  mixed $entities chaque table = une entite = une element dans "$entities", expl: ['article', 'commentaire', 'user']
+     * @return void
+     */
     public function __construct($entities)
     {
         echo '<h1>WSH</h1>';

@@ -1,8 +1,19 @@
 <?php
 namespace Core;
 
+/**
+ * ORM sera le pont qui vous reliera a votre bdd
+ */
 class ORM
 {
+    /**
+     * create cree une entree dans la table donnee en parametre, avec les donnees recus en paramtre egalement
+     *
+     * @param  mixed $table
+     * @param  mixed $fields pour chaque element, l'index doit correspondre au nom de la colonne dans la table
+     * @return false si on donne des mauvaise donnees
+     * @return string l'id de l'entree quand la requete reussi
+     */
     public static function create($table, $fields = [])
     {
         $toFill = array_keys($fields);
@@ -28,6 +39,14 @@ class ORM
         }
     }
 
+    /**
+     * read cherche une entree avec un id
+     *
+     * @param  mixed $table
+     * @param  mixed $id
+     * @return false si rien n'est trouve
+     * @return array correspondant a l'entree trouvee
+     */
     public static function read($table, $id)
     {
         $req = Database::getDbConnection()->prepare('SELECT * FROM '.$table.' WHERE id = :id ;');
@@ -44,6 +63,15 @@ class ORM
         }
     }
 
+    /**
+     * update modidfie une entree, qu'on cible avec un id
+     *
+     * @param  mixed $table
+     * @param  mixed $id
+     * @param  mixed $fields
+     * @return true si requete reussie
+     * @return false si requete echouee
+     */
     public static function update($table, $id, $fields)
     {
         $toFill = array_keys($fields);
@@ -64,6 +92,14 @@ class ORM
         return $req->execute($values);
     }
 
+    /**
+     * delete supprime une entree, qu'on cible avec un id
+     *
+     * @param  mixed $table
+     * @param  mixed $id
+     * @return true si requete reussie
+     * @return false si requete echouee
+     */
     public static function delete($table, $id)
     {
         $req = Database::getDbConnection()->prepare('DELETE FROM '.$table.' WHERE id = :id ;');
@@ -75,6 +111,14 @@ class ORM
         }
     }
 
+    /**
+     * find cherche toutes les entrees correspondants aux parametres donnes dans "params"
+     *
+     * @param  mixed $table
+     * @param  mixed $params en index on donne la regle SQL et en valeur sa valeur, expl: ['WHERE' => 'id = 1']
+     * @return array avec toutes les entrees correspondantes et leurs valeurs
+     * @return false si rien n'est trouve
+     */
     public static function find($table, $params = [])
     {
         $toReturn = [];

@@ -1,10 +1,20 @@
 <?php
 namespace Core ;
 
+/**
+ * Router dirige les requetes vers la bonne classe et sa methode
+ */
 class Router
 {
     private static $_routes = [];
 
+    /**
+     * connect ajoute une route dans "_routes", ou sont stockes tous les url pris en compte par votre site, on assigne chaque url une classe et une methode
+     *
+     * @param  mixed $staticUrl l'url a gerer
+     * @param  mixed $route la methode et la classe a utiliser
+     * @return void
+     */
     public static function connect($staticUrl, $route)
     {
         $explodedStaticUrl = explode('/', $staticUrl);
@@ -23,6 +33,12 @@ class Router
         }
     }
 
+    /**
+     * get retourne les bons elements a utiliser selon l'url donne, si cet url n'a pas ete assigne a un route, on essayera de la definir dynamiquement
+     *
+     * @param  mixed $url
+     * @return array index 0 => class, index 1 => methode
+     */
     public static function get($url)
     {
         $slicedUrl = str_replace(BASE_URI, '', $url);

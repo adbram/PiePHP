@@ -1,6 +1,9 @@
 <?php
 namespace Core;
 
+/**
+ * TemplateEngine vous permet d'avoir un code html propre et 100% personalise
+ */
 class TemplateEngine
 {
     private static $_rules = [
@@ -21,6 +24,12 @@ class TemplateEngine
         '/\@endwhile/' => '<?php endwhile; ?>'
     ];
 
+    /**
+     * parsePHP vous permet de n'ecrire aucune ligne php dans vos "vues", vous pouvez trouver (changer) la syntaxe a appliquer dans l'array "$_rules"
+     *
+     * @param  mixed $file
+     * @return void
+     */
     public static function parsePHP($file)
     {
         if(file_exists($file)) {
