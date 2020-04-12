@@ -14,7 +14,6 @@ class SetFiles
      */
     public function __construct($entities)
     {
-        echo '<h1>WSH</h1>';
         $dirs = ['src/Model', 'src/View', 'src/Controller'];
         $files = [];
 
