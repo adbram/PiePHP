@@ -96,28 +96,35 @@ class ORM
 
     public static function relations($table, $relations, $id)
     {
-        $toReturn = [];
-        foreach($relations as $type => $tableJoin) {
-            if ($type == 'has many') {
-                $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$id.';');
-                if($st->execute() == true) {
-                    $joinRelations = [];
-                    while($data = $st->fetch(\PDO::FETCH_ASSOC)) {
-                        $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
-                        $joinRelations[] = new $class($data);
+        $callInfo = debug_backtrace()[2];
+        $callFileFullPath = explode('\\', $callInfo['file']);
+        $callFile = array_pop($callFileFullPath);
+        if($callFile != 'Entity.php'){
+            $toReturn = [];
+            foreach($relations as $type => $tableJoin) {
+                if ($type == 'has many') {
+                    $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $tableJoin .'.'.$table.'_id='.$table.'.id WHERE '.$table.'.id='.$id.';');
+                    if($st->execute() == true) {
+                        $joinRelations = [];
+                        while($data = $st->fetch(\PDO::FETCH_ASSOC)) {
+                            $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                            $joinRelations[] = new $class($data);
+                        }
+                        $toReturn[$tableJoin] = $joinRelations;
                     }
-                    $toReturn[$tableJoin] = $joinRelations;
-                }
-            } elseif ($type == 'has one') {
-                $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$id.';');
-                if($st->execute() == true) {
-                    $data = $st->fetch(\PDO::FETCH_ASSOC);
-                    $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
-                    $toReturn[$tableJoin] = new $class($data);
+                } elseif ($type == 'has one') {
+                    $st = Database::getDbConnection()->prepare('SELECT '.$tableJoin.'.* FROM ' . $tableJoin . ' INNER JOIN ' . $table . ' ON '. $table .'.'.$tableJoin.'_id='.$tableJoin.'.id WHERE '.$table.'.id='.$id.';');
+                    if($st->execute() == true) {
+                        $data = $st->fetch(\PDO::FETCH_ASSOC);
+                        $class = '\Model\\' . ucfirst($tableJoin) . 'Model';
+                        $toReturn[$tableJoin] = new $class($data);
+                    }
                 }
             }
+            return $toReturn;
+        } else {
+            return [];
         }
-        return $toReturn;
     }
 
     private static function readyToUse($arr, $type = 1)

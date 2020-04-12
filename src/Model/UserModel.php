@@ -22,4 +22,10 @@ class UserModel extends \Core\Entity
     {
         return $this->find(['WHERE' => 'email = "'. $this->email.'" AND password = "'. $this->password.'";']);
     }
+
+    public function edit($params)
+    {
+        $this->_allValues = $params;
+        return $this->update($this->id);
+    }
 }

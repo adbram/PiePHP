@@ -19,13 +19,15 @@ class Entity
         unset($this->_allValues['_table']);
         unset($this->_allValues['_allValues']);
         unset($this->_allValues['_relations']);
-        $relations = ORM::relations($this->_table, $this->_relations, $this->id);
-        foreach($relations as $key => $value) {
-            $this->$key = $value;
+        if(isset($this->id)){
+            $relations = ORM::relations($this->_table, $this->_relations, $this->id);
+            foreach($relations as $key => $value) {
+                $this->$key = $value;
+            }
         }
     }
 
-    private function createAttribute($params)
+    protected function createAttribute($params)
     {
         foreach($params as $key => $value) {
             $this->$key = $value;

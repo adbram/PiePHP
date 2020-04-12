@@ -5,59 +5,109 @@ class UserController extends \Core\Controller
 {
     public function loginAction()
     {
-        $params = $this->_requestObj->getQueryParams();
-        if(empty($params)){
-            self::render('login');
+        if(isset($_SESSION['id'])){
+            header('Location: '.BASE_URI.'/');
         } else {
-            $params['password'] = hash('ripemd160', $params['password']);
-            $user = new \Model\UserModel($params);
-            $check = $user->connect();
-            if($check != false){
-                $_SESSION['id'] = $check[array_key_first($check)]['id'];
-                $_SESSION['pseudo'] = $check[array_key_first($check)]['pseudo'];
+            $params = $this->_requestObj->getQueryParams();
+            if(empty($params)){
+                self::render('login');
             } else {
-                self::render('login', ['error' => 'Email ou mot de passe incorrecte.']);
+                $params['password'] = hash('ripemd160', $params['password']);
+                $user = new \Model\UserModel($params);
+                $check = $user->connect();
+                if($check != false){
+                    $_SESSION['id'] = $check[0]->id;
+                    $_SESSION['pseudo'] = $check[0]->pseudo;
+                    header('Location: '.BASE_URI.'/');
+                } else {
+                    self::render('login', ['error' => 'Email ou mot de passe incorrecte.']);
+                }
             }
         }
     }
 
     public function signinAction()
     {
-        $params = $this->_requestObj->getQueryParams();
-        if(empty($params)){
-            self::render('signin');
+        if(isset($_SESSION['id'])){
+            header('Location: '.BASE_URI.'/');
         } else {
-            if(self::checkData($params) == true){
-                $params['password'] = hash('ripemd160', $params['password']);
-                $user = new \Model\UserModel($params);
-                if(!isset($user->id)) {
-                    $id = $user->save();
-                    if($id == 'email [ KO ]'){
-                        self::render('signin', ['error' => 'Un compte a déjà été crée avec cet email.']);
-                    } elseif ($id == 'pseudo [ KO ]') {
-                        self::render('signin', ['error' => 'Pseudonyme déjà utilisé.']);
-                    } else {
-                        self::render('signin', ['created' => true]);
+            $params = $this->_requestObj->getQueryParams();
+            if(empty($params)){
+                self::render('signin');
+            } else {
+                if(self::checkData($params) == true){
+                    $params['password'] = hash('ripemd160', $params['password']);
+                    $user = new \Model\UserModel($params);
+                    if(!isset($user->id)) {
+                        $id = $user->save();
+                        if($id == 'email [ KO ]'){
+                            self::render('signin', ['error' => 'Un compte a déjà été crée avec cet email.']);
+                        } elseif ($id == 'pseudo [ KO ]') {
+                            self::render('signin', ['error' => 'Pseudonyme déjà utilisé.']);
+                        } else {
+                            self::render('signin', ['created' => true]);
+                        }
                     }
                 }
             }
         }
     }
 
-    public function indexAction()
+    public function editAction()
     {
-        echo 'indexAction [ OK ]<br>';
-        $user = new \Model\UserModel(['id' => 1]);
-        // echo '<pre>', var_dump($user->historique), '</pre>';
-        // echo '<pre>', var_dump($user->read(1)), '</pre>';
-        echo '<pre>', var_dump($user->find()), '</pre>';
+        if(!isset($_SESSION['id'])){
+            header('Location: '.BASE_URI.'/login');
+        } else {
+            $user = new \Model\UserModel(['id' => $_SESSION['id']]);
+            self::render('editprofil', ['user' => $user]);
+            $params = $this->_requestObj->getQueryParams();
+            if(empty($params)){
+            } else {
+                if(hash('ripemd160', $params['passwordII']) == $user->password){
+                    if(self::checkData($params, 'editprofil') == true){
+                        $params['password'] = hash('ripemd160', $params['password']);
+                        unset($params['passwordII']);
+                        $user->edit($params);
+                        $new = new \Model\UserModel(['id' => $user->id]);
+                        if($user->edit($params) == true) {
+                            header('Location: '.BASE_URI.'/monprofil');
+                        }
+                    }
+                } else {
+                    self::render('editprofil', ['error' => 'Ancien mot de passe incorrecte', 'user' => $user]);
+                }
+            }
+        }
     }
 
-    public function checkData($data)
+    public function viewProfilAction()
+    {
+        if(!isset($_SESSION['id'])){
+            header('Location: '.BASE_URI.'/login');
+        } elseif (isset($_POST['password'])){
+            $user = new \Model\UserModel(['id' => $_SESSION['id']]);
+            $params = $this->_requestObj->getQueryParams();
+            if(hash('ripemd160', $params['password']) == $user->password){
+                $user->delete($user->id);
+                $this->deconnectAction();
+            } else {
+                self::render('profil', ['user' => $user, 'error' => 'Ancien mot de passe incorrecte']);
+            }
+        } else {
+            $user = new \Model\UserModel(['id' => $_SESSION['id']]);
+            foreach($user->historique as $key => $value){
+                $val = new \Model\HistoriqueModel(['id' => $value->id]);
+                $user->historique[$key] = $val;
+            }
+            self::render('profil', ['user' => $user]);
+        }
+    }
+
+    public function checkData($data, $file = 'signin')
     {
         foreach($data as $key => $value) {
             if(strlen($value) > 50 || $value == '') {
-                self::render('signin', ['error' => 'Tous le champs doivent être complétés, et ne doivent pas dépasser 50 caractères.']);
+                self::render($file, ['error' => 'Tous le champs doivent être complétés, et ne doivent pas dépasser 50 caractères.']);
                 return false;
             }
         }
@@ -85,5 +135,19 @@ class UserController extends \Core\Controller
             }
         }
         return true;
+    }
+
+    public function deconnectAction()
+    {
+        $_SESSION = [];
+        session_destroy();
+        header('Location: '.BASE_URI.'/login');
+    }
+
+    public function deleteAction()
+    {
+        $user = new \Model\UserModel(['id' => $_SESSION['id']]);
+        $user->delete($user->id);
+        $this->deconnectAction();
     }
 }

@@ -3,6 +3,5 @@ namespace Model;
 
 class HistoriqueModel extends \Core\Entity
 {
-    public $filmVu = 'pokemon';
-    public $cinema = 'ugc';
+    protected $_relations = ['has one' => 'film'];
 }

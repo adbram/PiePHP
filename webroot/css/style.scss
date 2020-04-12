@@ -9,6 +9,7 @@ a{
     color: black !important;
     text-decoration: none;
     &:hover{
+        cursor: pointer;
         transition: ease-in-out .15s;
         color: white;
     }
@@ -33,29 +34,170 @@ header{
 }
 
 section{
+    .created{
+        text-align: center;
+        color: #28a745;
+        a{
+            color: #28a745 !important;
+        }
+    }
+    h1, .underlined{
+        border-bottom: solid 2px black;
+        margin: 10px;
+        text-align: center;
+        &:not(h1){
+            font-size: 20px ;
+        }
+    }
+    #edit, #delete, .deleteH, .deleteG{
+        font-size: 12px;
+        padding: 10px;
+        background: #E7EAED;
+        outline: none;
+        margin: 5px;
+        border: solid 1px transparent;
+        color: white;
+        border-radius: 20px;
+        &:not(.deleteH, .deleteG){
+            margin: 10px;
+        }
+        &:not(#edit){
+            background: #dc3545 ;
+            &:hover{
+                cursor: pointer;
+                color: #dc3545;
+                border: solid 1px #dc3545;
+                background: white;
+                transition: ease-in-out .1s;
+            }
+        }
+        &:not(#delete, .deleteH, .deleteG){
+            background: #007bff ;
+            &:hover{
+                cursor: pointer;
+                color: #007bff;
+                border: solid 1px #007bff;
+                background: white;
+                transition: ease-in-out .1s;
+            }
+        }
+    }
+    #editF, #deleteF{
+        font-size: 12px;
+        padding: 10px;
+        background: #E7EAED;
+        outline: none;
+        margin: 5px;
+        border: solid 1px transparent;
+        color: white;
+        border-radius: 20px;
+        &:not(#deleteF){
+            margin: 10px;
+            background: #007bff ;
+            &:hover{
+                cursor: pointer;
+                color: #007bff;
+                border: solid 1px #007bff;
+                background: white;
+                transition: ease-in-out .1s;
+            }
+        }
+        &:not(#editF){
+            background: #dc3545 ;
+            &:hover{
+                cursor: pointer;
+                color: #dc3545;
+                border: solid 1px #dc3545;
+                background: white;
+                transition: ease-in-out .1s;
+            }
+        }
+    }
+    #deleteDiv, #addDiv{
+        background: #dc3545 ;
+        border-radius: 20px 0 20px 20px ;
+    }
+    #logInForm, #formSignin, #formEdit, #deleteDiv, #addDiv{
+        align-content: center;
+        text-align: center;
+        input, select, textarea{
+            padding: 10px;
+            margin: 10px;
+            background: #E7EAED;
+            outline: none;
+            border: solid 1px transparent;
+            border-radius: 20px;
+        }
+        input[type=submit]{
+            background-color: #007bff;
+            color: white;
+        }
+        textarea{
+            resize: none;
+            height: 300px;
+        }
+    }
     padding: 50px;
     background-color: white;
+    #searchForm{
+        background: #C5C9CA;
+        padding: 30px;
+        border-radius: 40px;
+    }
     #searchBar{
         border: solid 1px transparent;
-        border-radius: 100px;
+        border-radius: 20px;
         background: #E7EAED;
+    }
+    #showGenre{
+        color: #757575;
+        margin: 10px 10px 0 10px;
+        padding: 10px;
+        background: #E7EAED;
+        border: solid 1px transparent;
+        border-radius: 20px;
+        text-align: center;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    #genre{
+        border: solid 1px transparent;
+        background: white;
+        border-radius: 0 20px 20px 20px;
+        outline: none;
+        position: relative;
+        margin: 0 10px 10px 10px;
+        padding: 30px;
+        div{
+            display: inline;
+            label{
+                font-size: 12px;
+                color: rgb(69, 71, 71);
+            }
+        }
+        .center{
+            position: absolute;
+            left: 50%;
+        }
     }
     #search{
         padding: 20px;
         background: #E7EAED;
-        outline-style: none;
+        outline: none;
         border: solid 1px transparent;
-        border-radius: 100px;
+        border-radius: 20px;
     }
     #submitSearch{
         border-radius: 50%;
         background: #E7EAED;
-        outline-style: none;
+        outline: none;
         border: solid 1px transparent;
         margin-left: -10px;
         i{
             padding: 10px;
             &:hover{
+                cursor: pointer;
                 transition: .1s ease-in-out;
                 color: white;
             }
@@ -64,9 +206,27 @@ section{
             }
         }
     }
+    .bubble{
+        font-size: 12px;
+        background: black;
+        color: white;
+        margin: 5px;
+        padding: 5px;
+        border-radius: 5px;
+        display: inline-block;
+        &:hover{
+            cursor: pointer;
+            color: red;
+        }
+    }
     .movieCard{
         text-align: center;
         padding: 10px;
+        &:hover{
+            cursor: pointer;
+            box-shadow: 5px 5px 2px #FECC00;
+            transition: ease-in-out .2s;
+        }
     }
     .pagesNav{
         text-align: center;
@@ -76,5 +236,49 @@ section{
         .currentPage{
             text-decoration: underline;
         }
+    }
+}
+.infos, .infos span{
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+    &:not(.infos){
+        font-weight: 400;
+    }
+}
+.add, .addG, .addH{
+    outline: none;
+    margin: 20px 0 20px 0;
+    padding: 10px;
+    background: #E7EAED;
+    outline: none;
+    border: solid 1px transparent;
+    color: white;
+    border-radius: 20px;
+    background: #007bff ;
+    &:hover{
+        cursor: pointer;
+        color: #007bff;
+        border: solid 1px #007bff;
+        background: white;
+        transition: ease-in-out .1s;
+    }
+}
+.rmH{
+    outline: none;
+    margin: 20px 0 20px 0;
+    padding: 10px;
+    background: #E7EAED;
+    outline: none;
+    border: solid 1px transparent;
+    color: white;
+    border-radius: 20px;
+    background: #dc3545 ;
+    &:hover{
+        cursor: pointer;
+        color: #dc3545;
+        border: solid 1px #dc3545;
+        background: white;
+        transition: ease-in-out .1s;
     }
 }

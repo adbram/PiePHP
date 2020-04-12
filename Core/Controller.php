@@ -27,7 +27,7 @@ class Controller
         }
     }
 
-    public static function pagination($elements, $currentPage, $elementsByPage = 2)
+    public static function pagination($elements, $currentPage, $elementsByPage = 15)
     {
         $nbElements = count($elements);
         $nbPages = ceil($nbElements / $elementsByPage);

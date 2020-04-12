@@ -13,6 +13,7 @@ a {
 }
 
 a:hover {
+  cursor: pointer;
   -webkit-transition: ease-in-out .15s;
   transition: ease-in-out .15s;
   color: white;
@@ -42,24 +43,196 @@ section {
   background-color: white;
 }
 
+section .created {
+  text-align: center;
+  color: #28a745;
+}
+
+section .created a {
+  color: #28a745 !important;
+}
+
+section h1, section .underlined {
+  border-bottom: solid 2px black;
+  margin: 10px;
+  text-align: center;
+}
+
+section h1:not(h1), section .underlined:not(h1) {
+  font-size: 20px;
+}
+
+section #edit, section #delete, section .deleteH, section .deleteG {
+  font-size: 12px;
+  padding: 10px;
+  background: #E7EAED;
+  outline: none;
+  margin: 5px;
+  border: solid 1px transparent;
+  color: white;
+  border-radius: 20px;
+}
+
+section #edit, section #delete, section .deleteH, section .deleteG {
+  margin: 10px;
+}
+
+section #edit:not(#edit), section #delete:not(#edit), section .deleteH:not(#edit), section .deleteG:not(#edit) {
+  background: #dc3545;
+}
+
+section #edit:not(#edit):hover, section #delete:not(#edit):hover, section .deleteH:not(#edit):hover, section .deleteG:not(#edit):hover {
+  cursor: pointer;
+  color: #dc3545;
+  border: solid 1px #dc3545;
+  background: white;
+  -webkit-transition: ease-in-out .1s;
+  transition: ease-in-out .1s;
+}
+
+section #edit, section #delete, section .deleteH, section .deleteG {
+  background: #007bff;
+}
+
+section #edit:hover, section #delete:hover, section .deleteH:hover, section .deleteG:hover {
+  cursor: pointer;
+  color: #007bff;
+  border: solid 1px #007bff;
+  background: white;
+  -webkit-transition: ease-in-out .1s;
+  transition: ease-in-out .1s;
+}
+
+section #editF, section #deleteF {
+  font-size: 12px;
+  padding: 10px;
+  background: #E7EAED;
+  outline: none;
+  margin: 5px;
+  border: solid 1px transparent;
+  color: white;
+  border-radius: 20px;
+}
+
+section #editF:not(#deleteF), section #deleteF:not(#deleteF) {
+  margin: 10px;
+  background: #007bff;
+}
+
+section #editF:not(#deleteF):hover, section #deleteF:not(#deleteF):hover {
+  cursor: pointer;
+  color: #007bff;
+  border: solid 1px #007bff;
+  background: white;
+  -webkit-transition: ease-in-out .1s;
+  transition: ease-in-out .1s;
+}
+
+section #editF:not(#editF), section #deleteF:not(#editF) {
+  background: #dc3545;
+}
+
+section #editF:not(#editF):hover, section #deleteF:not(#editF):hover {
+  cursor: pointer;
+  color: #dc3545;
+  border: solid 1px #dc3545;
+  background: white;
+  -webkit-transition: ease-in-out .1s;
+  transition: ease-in-out .1s;
+}
+
+section #deleteDiv, section #addDiv {
+  background: #dc3545;
+  border-radius: 20px 0 20px 20px;
+}
+
+section #logInForm, section #formSignin, section #formEdit, section #deleteDiv, section #addDiv {
+  -ms-flex-line-pack: center;
+      align-content: center;
+  text-align: center;
+}
+
+section #logInForm input, section #logInForm select, section #logInForm textarea, section #formSignin input, section #formSignin select, section #formSignin textarea, section #formEdit input, section #formEdit select, section #formEdit textarea, section #deleteDiv input, section #deleteDiv select, section #deleteDiv textarea, section #addDiv input, section #addDiv select, section #addDiv textarea {
+  padding: 10px;
+  margin: 10px;
+  background: #E7EAED;
+  outline: none;
+  border: solid 1px transparent;
+  border-radius: 20px;
+}
+
+section #logInForm input[type=submit], section #formSignin input[type=submit], section #formEdit input[type=submit], section #deleteDiv input[type=submit], section #addDiv input[type=submit] {
+  background-color: #007bff;
+  color: white;
+}
+
+section #logInForm textarea, section #formSignin textarea, section #formEdit textarea, section #deleteDiv textarea, section #addDiv textarea {
+  resize: none;
+  height: 300px;
+}
+
+section #searchForm {
+  background: #C5C9CA;
+  padding: 30px;
+  border-radius: 40px;
+}
+
 section #searchBar {
   border: solid 1px transparent;
-  border-radius: 100px;
+  border-radius: 20px;
   background: #E7EAED;
+}
+
+section #showGenre {
+  color: #757575;
+  margin: 10px 10px 0 10px;
+  padding: 10px;
+  background: #E7EAED;
+  border: solid 1px transparent;
+  border-radius: 20px;
+  text-align: center;
+}
+
+section #showGenre:hover {
+  cursor: pointer;
+}
+
+section #genre {
+  border: solid 1px transparent;
+  background: white;
+  border-radius: 0 20px 20px 20px;
+  outline: none;
+  position: relative;
+  margin: 0 10px 10px 10px;
+  padding: 30px;
+}
+
+section #genre div {
+  display: inline;
+}
+
+section #genre div label {
+  font-size: 12px;
+  color: #454747;
+}
+
+section #genre .center {
+  position: absolute;
+  left: 50%;
 }
 
 section #search {
   padding: 20px;
   background: #E7EAED;
-  outline-style: none;
+  outline: none;
   border: solid 1px transparent;
-  border-radius: 100px;
+  border-radius: 20px;
 }
 
 section #submitSearch {
   border-radius: 50%;
   background: #E7EAED;
-  outline-style: none;
+  outline: none;
   border: solid 1px transparent;
   margin-left: -10px;
 }
@@ -69,6 +242,7 @@ section #submitSearch i {
 }
 
 section #submitSearch i:hover {
+  cursor: pointer;
   -webkit-transition: .1s ease-in-out;
   transition: .1s ease-in-out;
   color: white;
@@ -78,9 +252,32 @@ section #submitSearch i:active {
   color: grey;
 }
 
+section .bubble {
+  font-size: 12px;
+  background: black;
+  color: white;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+section .bubble:hover {
+  cursor: pointer;
+  color: red;
+}
+
 section .movieCard {
   text-align: center;
   padding: 10px;
+}
+
+section .movieCard:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 5px 5px 2px #FECC00;
+          box-shadow: 5px 5px 2px #FECC00;
+  -webkit-transition: ease-in-out .2s;
+  transition: ease-in-out .2s;
 }
 
 section .pagesNav {
@@ -93,5 +290,57 @@ section .pagesNav .nbPage {
 
 section .pagesNav .currentPage {
   text-decoration: underline;
+}
+
+.infos, .infos span {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.infos:not(.infos), .infos span:not(.infos) {
+  font-weight: 400;
+}
+
+.add, .addG, .addH {
+  outline: none;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+  background: #E7EAED;
+  outline: none;
+  border: solid 1px transparent;
+  color: white;
+  border-radius: 20px;
+  background: #007bff;
+}
+
+.add:hover, .addG:hover, .addH:hover {
+  cursor: pointer;
+  color: #007bff;
+  border: solid 1px #007bff;
+  background: white;
+  -webkit-transition: ease-in-out .1s;
+  transition: ease-in-out .1s;
+}
+
+.rmH {
+  outline: none;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+  background: #E7EAED;
+  outline: none;
+  border: solid 1px transparent;
+  color: white;
+  border-radius: 20px;
+  background: #dc3545;
+}
+
+.rmH:hover {
+  cursor: pointer;
+  color: #dc3545;
+  border: solid 1px #dc3545;
+  background: white;
+  -webkit-transition: ease-in-out .1s;
+  transition: ease-in-out .1s;
 }
 /*# sourceMappingURL=style.css.map */
